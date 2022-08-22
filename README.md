@@ -401,45 +401,45 @@ tabix=/SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics/Imputation/htslib_instal
 export PATH=/share/apps/java/bin:$PATH
 java=/share/apps/java/bin/java
  
-# Remove duplicate using bcftools
+#Remove duplicate using bcftools
 bcftools norm -d all AA208.MAF0.01.chr.only.recode.vcf -Ov -o AA208.MAF0.01.chr.only.rmDups.vcf
 bgzip -c AA208.MAF0.01.chr.only.rmDups.vcf > AA208.MAF0.01.chr.only.rmDups.vcf.gz
 tabix -p vcf AA208.MAF0.01.chr.only.rmDups.vcf.gz
 
-# Change missing genotype pattern - as explained here: https://www.biostars.org/p/433624/
+#Change missing genotype pattern - as explained here: https://www.biostars.org/p/433624/
 echo " Change missing genotype pattern"
 zcat AA208.MAF0.01.chr.only.rmDups.vcf.gz | perl -pe "s/\s\.:/\t.\/.:/g" | bgzip -c > AA208.MAF0.01.chr.only.new.rmDups.vcf.gz
 printf "\n"
 
-# Make crude .map file for Beagle
+#Make crude .map file for Beagle
 echo "Make crude map fpr vcf file"
 zcat AA208.MAF0.01.chr.only.new.rmDups.vcf.gz | grep -v "#" | awk -v OFMT='%f' -v OFS='\t' '{a=$2/1000000;b=a*4.2;print $1,".", b,$2;}' > crude_4.2rate.bgl.map
 printf "\n\n"
 
-# Any scaffolds that only have one SNP need to be excluded and placed into a text file
+#Any scaffolds that only have one SNP need to be excluded and placed into a text file
 echo "Get scaffolds with only one occurence"
 awk 'NR==FNR { a[$1]++ } NR!=FNR && a[$1]==1' crude_4.2rate.bgl.map crude_4.2rate.bgl.map > uniq_scaffs
-# Remove the any scaffolds excluded from the chrom map
+#Remove the any scaffolds excluded from the chrom map
 echo "Remove these scaffolds from crude map"
 grep -xvf uniq_scaffs crude_4.2rate.bgl.map > new_crude_4.2rate.bgl.map
-# edit eclude to be in correct format for excludemarkers
+#edit eclude to be in correct format for excludemarkers
 echo "uniq scaff to CHROM:POS"
 awk '{print $1":"$4}' uniq_scaffs > exclude.txt
 printf "\n\n"
 
-# Run with map
+#Run with map
 echo "Run Beagle with crude map"
 java -jar /SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics/beagle.22Jul22.46e.jar gt=AA208.MAF0.01.chr.only.new.rmDups.vcf.gz map=crude_4.2rate.bgl.map gp=TRUE out=beagle_out nthreads=64
 echo "DONE"
 printf "\n\n"
 
-# Run without map
+#Run without map
 echo "Run beagle without crude map"
 java -jar /SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics/beagle.22Jul22.46e.jar gt=AA208.MAF0.01.chr.only.new.rmDups.vcf.gz gp=TRUE out=beagle_out_nomap nthreads=64
 echo "DONE"
 printf "\n\n"
 
-# [then proceed with making input files for permGWAS]
+#[then proceed with making input files for permGWAS]
 gunzip beagle_out.vcf.gz
 gunzip  beagle_out_nomap.vcf.gz
 plink=/SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics/plink2
