@@ -74,8 +74,8 @@ $plink --bfile AA239.MAF0.01.missing0.5.binary --allow-extra-chr --make-rel squa
 #-BLSMM in GEMMA does not take in a separate covariate file. To incorporate and use covariates, we need BIMBAM mean genotype file format for input files instead (see GEMMA manual http://www.xzlab.org/software/GEMMAmanual.pdf)
 
 #QCTools may be able to convert vcf to BIMBAM mean genotype files 
-# https://github.com/genetics-statistics/GEMMA/issues/103
-# https://enkre.net/cgi-bin/code/qctool/doc/tip/doc/html/qctool/documentation/download.html
+#https://github.com/genetics-statistics/GEMMA/issues/103
+#https://enkre.net/cgi-bin/code/qctool/doc/tip/doc/html/qctool/documentation/download.html
 
 #running QCtools
 qctool=/share/apps/genomics/qctoolv2/bin/qctool_v2.0.5
@@ -133,12 +133,12 @@ $gemma -bfile AA239.MAF0.01.missing0.5.binary -bslmm 1 -o AA239.test.26Jun
 
 GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
 Reading Files ...
-## number of total individuals = 239
-## number of analyzed individuals = 239
-## number of covariates = 1
-## number of phenotypes = 1
-## number of total SNPs/var        =    61210
-## number of analyzed SNPs         =    31451
+##number of total individuals = 239
+##number of analyzed individuals = 239
+##number of covariates = 1
+##number of phenotypes = 1
+##number of total SNPs/var        =    61210
+##number of analyzed SNPs         =    31451
 Start Eigen-Decomposition...
 pve estimate =0.267816
 se(pve) =0.22585
@@ -156,12 +156,12 @@ $gemma -bfile AA239.MAF0.01.missing0.5.binary -bslmm 1 -s 25,000,000 -w 2,500,00
 
 GEMMA 0.98.5 (2021-08-25) by Xiang Zhou, Pjotr Prins and team (C) 2012-2021
 Reading Files ...
-## number of total individuals = 239
-## number of analyzed individuals = 239
-## number of covariates = 1
-## number of phenotypes = 1
-## number of total SNPs/var        =    61210
-## number of analyzed SNPs         =    31451
+##number of total individuals = 239
+##number of analyzed individuals = 239
+##number of covariates = 1
+##number of phenotypes = 1
+##number of total SNPs/var        =    61210
+##number of analyzed SNPs         =    31451
 Start Eigen-Decomposition...
 pve estimate =0.267816
 se(pve) =0.22585
@@ -181,11 +181,11 @@ initial value of |gamma| = 10
 -rpace [num]: specify recording pace, record one state in every [num] steps (default 10)
 -wpace [num]: specify writing pace, write values down in every [num] recorded steps (default 1000
 
-# [QUESTIONS/OPTIONS FOR BLSMM to be considered:]
-# Which BLSMM model to use?
-# Number of iterations for MCMC
-# Other options in MCMC chain – follow default?
-# How to account for LD?
+#[QUESTIONS/OPTIONS FOR BLSMM to be considered:]
+#Which BLSMM model to use?
+#Number of iterations for MCMC
+#Other options in MCMC chain – follow default?
+#How to account for LD?
 
 
 [2nd run]
@@ -199,40 +199,41 @@ $gemma -g AA239.bimbam.txt -notsnp -p AA239.phenotype.bimbam.txt -bslmm 1 -o AA2
 
 
 # Understanding The output files from BLSMM:
--log.txt: running parameters, computation time, PVE estimate and its standard error in the null linear mixed model (not the BSLMM)
--hyp.txt: MCMC posterior samples for the hyper-parameters (h, PVE, ρ, PGE, π and |γ|), for every 10th iteration
-(interpretation of hyper-parameters is from the GEMMA manual and the GEMMA google group: https://groups.google.com/g/gemma-discussion/c/Ow3EUP_qJuU/m/X6rpKMGgAQAJ)
-----h: a parameter of the model
-----PVE: the proportion of variance in phenotypes explained by the sparse effects (Xβ) and random effects terms (u) together 🡪 total phenotypic variation explained by all SNPs (i.e. genetic variance) 🡪 When PVE is low, it indicates either: (1) heritability is relatively low, or (2) the heritability is not low, but the proportion of genetic variance captured by your available SNP genotypes is small.
-----rho: rho is the approximation to proportion of genetic variance explained by variants with major effects, and when rho is close to 0, that means that we are more in a LMM case (highly polygenic basis of the phenotype) and when rho is close to 1, it is more a BVSR case, which means that there are a few major effects loci. E.g. when rho = 0.6, it might mean that it is not well defined for either LMM or BSVR (??) probably because PVE is quite low (not much phenotypic variation explained by the set of SNPs tested and therefore, not clear which genetic architecture is behind this phenotype).
-----PGE: the proportion of genetic variance explained by the sparse effects terms (Xβ) 🡪 the proportion of PVE explained by those SNPs with significance effects on phenotypic variation
-----pi: the proportion of variants with non-zero “large” effects
-----n_gamma: the number of major-effect SNPs that contribute to PGE
--param.txt: the posterior mean estimates for the effect size parameters (α, β|γ == 1 and γ)
-----chr: chromosome
-----rs: SNP ID
-----ps: SNP position?
-----n_miss:
-----alpha: captures the small effects that all SNPs have
-----beta: captures the additional effects of some large effect SNPs
-----gamma:
-*From manual: Notice that the beta column contains the posterior mean estimate for βi |γi == 1 rather than βi beta. Therefore, the effect size estimate for the additional effect is βiγi, and in the special case K = XXT /p, the total effect size estimate is αi + βiγi
--bv.txt: a column of breeding value estimates uˆ. Individuals with missing phenotypes will have values of “NA”
--gamma.txt: contains the posterior samples for the gamma, for every 10th iteration. Each row lists the SNPs included in the model in that iteration, and those SNPs are represented by their row numbers (+1) in the prefix.param.txt file.
+#-log.txt: running parameters, computation time, PVE estimate and its standard error in the null linear mixed model (not the BSLMM)
+#-hyp.txt: MCMC posterior samples for the hyper-parameters (h, PVE, ρ, PGE, π and |γ|), for every 10th iteration
+#(interpretation of hyper-parameters is from the GEMMA manual and the GEMMA google group: https://groups.google.com/g/gemma-discussion/c/Ow3EUP_qJuU/m/X6rpKMGgAQAJ)
+#----h: a parameter of the model
+#----PVE: the proportion of variance in phenotypes explained by the sparse effects (Xβ) and random effects terms (u) together 🡪 total phenotypic variation explained by all SNPs (i.e. genetic variance) 🡪 When PVE is low, it indicates either: (1) heritability is relatively low, or (2) the heritability is not low, but the proportion of genetic variance captured by your available SNP genotypes is small.
+#----rho: rho is the approximation to proportion of genetic variance explained by variants with major effects, and when rho is close to 0, that means that we are more in a LMM case (highly polygenic basis of the phenotype) and when rho is close to 1, it is more a BVSR case, which means that there are a few major effects loci. E.g. when rho = 0.6, it might mean that it is not well defined for either LMM or BSVR (??) probably because PVE is quite low (not much phenotypic variation explained by the set of SNPs tested and therefore, not clear which genetic architecture is behind this phenotype).
+#----PGE: the proportion of genetic variance explained by the sparse effects terms (Xβ) 🡪 the proportion of PVE explained by those SNPs with significance effects on phenotypic variation
+#----pi: the proportion of variants with non-zero “large” effects
+#----n_gamma: the number of major-effect SNPs that contribute to PGE
+#-param.txt: the posterior mean estimates for the effect size parameters (α, β|γ == 1 and γ)
+#----chr: chromosome
+#----rs: SNP ID
+#----ps: SNP position?
+#----n_miss:
+#----alpha: captures the small effects that all SNPs have
+#----beta: captures the additional effects of some large effect SNPs
+#----gamma:
+#*From manual: Notice that the beta column contains the posterior mean estimate for βi |γi == 1 rather than βi beta. Therefore, the effect size estimate for the additional effect is βiγi, and in the special case K = XXT /p, the total effect size estimate is αi + βiγi
+#-bv.txt: a column of breeding value estimates uˆ. Individuals with missing phenotypes will have values of “NA”
+#-gamma.txt: contains the posterior samples for the gamma, for every 10th iteration. Each row lists the SNPs included in the model in that iteration, and those SNPs are represented by their row numbers (+1) in the prefix.param.txt file.
 
 #PIP calculation:
--proportion of MCMC iterations that an SNP is identified as having a non-zero beta
--for model parameters and PIP calculation, refer to (Guan & Stephens, 2011 DOI: 10.1214/11-AOAS455) 
+#-proportion of MCMC iterations that an SNP is identified as having a non-zero beta
+#-for model parameters and PIP calculation, refer to (Guan & Stephens, 2011 DOI: 10.1214/11-AOAS455) 
 
 
 # [A major problem in using BSLMM:]
 #the phenotype data used here, i.e. phenotypic ratio (of number of eggs laid on two different host plants) is not normally distributed, and is inflated by 0 and 1.
 #log transformation doesn’t work, and quantile transformation only works when transformation is done on the residuals from a linear regression of phenotypic ratio on the covariates – however, this is hard to interpret.
+
 #solutions: 
-# 1) try other methods: permutation method (permGWAS); treating phenotype as categorical traits (POLMM)
-# 2) further process phenotype data: transformation; downsampling the inflated GM-extreme; subsampling
-# 3) the hybrid two-step method: analyse binary zero vs non-zero traits first, then analyse the numerical non-zero values (details see below)
-# 4) Separating GM-preference and RR-preference, to make both phenotype datasets right-skewed and hence earier for transformation
+#1) try other methods: permutation method (permGWAS); treating phenotype as categorical traits (POLMM)
+#2) further process phenotype data: transformation; downsampling the inflated GM-extreme; subsampling
+#3) the hybrid two-step method: analyse binary zero vs non-zero traits first, then analyse the numerical non-zero values (details see below)
+#4) Separating GM-preference and RR-preference, to make both phenotype datasets right-skewed and hence earier for transformation
 
 
 # B. Try treating nonnormal, zero-inflated phenotypic data as categorical data – a GWAS tool for categorical data, POLMM (a R package)
@@ -249,7 +250,7 @@ library(POLMM)
 ?POLMM  # manual of POLMM()
 
 #first, build a regression model: POLMM_Null_Model()
-# [error message:] Error in fitPOLMMcpp(t_flagSparseGRM = flagSparseGRM, t_flagGMatRatio = flagGMatRatio,  : 
+#[error message:] Error in fitPOLMMcpp(t_flagSparseGRM = flagSparseGRM, t_flagGMatRatio = flagGMatRatio,  : 
   Index out of bounds: [index='scaffold_MT'].
 
 #to fixt this: filter my vcf file with only chromosomes and not the scaffold MT
@@ -262,10 +263,10 @@ vcftools  --vcf AA208.MAF0.01.missing0.5.08Jul.recode.vcf  --out AA208.MAF0.01.c
 plink=/SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics/plink2
 $plink --vcf AA208.MAF0.01.chr.only.recode.vcf --allow-extra-chr --make-bed --double-id --out AA208.MAF0.01.15Jul.binary
 
-# Several ways to categroise phenotype:
-# 1) into bins of 0.1 intervals
-# 2) into bins of 0.2 intervals
-# 3) into GM (<0.3), RR (>0.7), and INTermediate (0.4< <0.6)
+#Several ways to categroise phenotype:
+#1) into bins of 0.1 intervals
+#2) into bins of 0.2 intervals
+#3) into GM (<0.3), RR (>0.7), and INTermediate (0.4< <0.6)
 
 
 # C. Try a permutation-based test for LMM - permGWAS
@@ -489,7 +490,7 @@ pip install warpedlmm
 #running WarpedLMM
 python -m warpedlmm AA208.08Jul.binary phenotype_file
 
-# didn't work
+#didn't work
 
 # E. Separating zero and non-zero values
 
