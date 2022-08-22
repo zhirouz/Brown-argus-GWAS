@@ -1,9 +1,11 @@
-# Brown-argus-GWAS
+# Brown argus GWAS: host plant preference of Brown argus butterflies (Aricia agestis)
 
-#【GWAS on BA – e-lab-book and scripts】
 
-#main working folder:
+
+main working folder:
 /SAN/ugi/LepGenomics/1_Aricia.agestis_PopGenomics
+
+
 
 #【pre-GWAS file processing】
 
@@ -216,7 +218,7 @@ $gemma -g AA239.bimbam.txt -notsnp -p AA239.phenotype.bimbam.txt -bslmm 1 -o AA2
 #----alpha: captures the small effects that all SNPs have
 #----beta: captures the additional effects of some large effect SNPs
 #----gamma:
-#*From manual: Notice that the beta column contains the posterior mean estimate for βi |γi == 1 rather than βi beta. Therefore, the effect size estimate for the additional effect is βiγi, and in the special case K = XXT /p, the total effect size estimate is αi + βiγi
+#From manual: Notice that the beta column contains the posterior mean estimate for βi |γi == 1 rather than βi beta. Therefore, the effect size estimate for the additional effect is βiγi, and in the special case K = XXT /p, the total effect size estimate is αi + βiγi
 #-bv.txt: a column of breeding value estimates uˆ. Individuals with missing phenotypes will have values of “NA”
 #-gamma.txt: contains the posterior samples for the gamma, for every 10th iteration. Each row lists the SNPs included in the model in that iteration, and those SNPs are represented by their row numbers (+1) in the prefix.param.txt file.
 
